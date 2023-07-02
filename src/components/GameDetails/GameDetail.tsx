@@ -10,10 +10,10 @@ const getGameTitle = (games: Game[], title: string) => {
 };
 
 const GameDetail = () => {
-  const { displayedGames } = useGamesList();
+  const { sortedGames } = useGamesList();
   const { title } = useParams();
 
-  const gameTitle = getGameTitle(displayedGames, String(title));
+  const gameTitle = getGameTitle(sortedGames, String(title));
 
   return (
     <>

@@ -3,6 +3,7 @@ import { useGetAllGamesQuery } from "../../store/games/games.api";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { Game, GamesFilters, GamesList as IGamesList } from "../../types/games";
 import { increaseLimit } from "../../store/games/games.slice";
+import { useSearchParams } from "react-router-dom";
 
 const getSortedByPopularityGames = (games: IGamesList | undefined) => {
   if (!games) return [];
@@ -58,8 +59,12 @@ const useGamesList = () => {
     [sortedGames, limit, filterKey, filterValue]
   );
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const handleShowMore = () => {
     dispatch(increaseLimit());
+    searchParams.set("limit", String(limit + 12));
+    setSearchParams(searchParams);
   };
 
   const isShowMoreButtonShowed = noLimitedLength > limit;
@@ -70,6 +75,7 @@ const useGamesList = () => {
     error,
     handleShowMore,
     isShowMoreButtonShowed,
+    sortedGames,
   };
 };
 
