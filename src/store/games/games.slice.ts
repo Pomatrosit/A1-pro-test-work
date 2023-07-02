@@ -32,9 +32,11 @@ export const gamesSlice = createSlice({
     },
     setFilterProvider(state, action: PayloadAction<string>) {
       state.filterProvider = action.payload;
+      state.limit = 12;
     },
     setFilterCurrency(state, action: PayloadAction<string>) {
       state.filterCurrency = action.payload;
+      state.limit = 12;
     },
     clearFilters(state) {
       state.filterCurrency = "";
