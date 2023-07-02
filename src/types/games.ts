@@ -13,7 +13,14 @@ export interface Game {
 
 export type GamesList = Record<string, Game>;
 
-export type FilterKey = "currency" | "provider" | "";
+export enum FILTER_KEYS {
+  CURRENCY = "currency",
+  PROVIDER = "provider",
+  LIMIT = "limit",
+  EMPTY = "",
+}
+
+export type FilterKey = FILTER_KEYS;
 
 export interface GamesFilters {
   limit: number;

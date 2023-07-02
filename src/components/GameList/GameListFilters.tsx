@@ -1,5 +1,6 @@
 import { Box, Flex, Select } from "@chakra-ui/react";
 import useGamesFilters from "./useGamesFilters";
+import { FILTER_KEYS } from "../../types/games";
 
 const GameListFilters = () => {
   const { handleChange, filterKey, filterValue, currencies, providers } =
@@ -11,8 +12,8 @@ const GameListFilters = () => {
         <Box width={200}>
           <Select
             placeholder="Currency"
-            value={filterKey === "currency" ? filterValue : ""}
-            onChange={(e) => handleChange(e, "currency")}
+            value={filterKey === FILTER_KEYS.CURRENCY ? filterValue : ""}
+            onChange={(e) => handleChange(e, FILTER_KEYS.CURRENCY)}
           >
             {currencies.map((currency) => (
               <option key={currency} value={currency}>
@@ -25,8 +26,8 @@ const GameListFilters = () => {
         <Box width={200}>
           <Select
             placeholder="Provider"
-            value={filterKey === "provider" ? filterValue : ""}
-            onChange={(e) => handleChange(e, "provider")}
+            value={filterKey === FILTER_KEYS.PROVIDER ? filterValue : ""}
+            onChange={(e) => handleChange(e, FILTER_KEYS.PROVIDER)}
           >
             {providers.map((provider) => (
               <option key={provider} value={provider}>

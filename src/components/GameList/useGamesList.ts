@@ -1,7 +1,12 @@
 import { useMemo } from "react";
 import { useGetAllGamesQuery } from "../../store/games/games.api";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { Game, GamesFilters, GamesList as IGamesList } from "../../types/games";
+import {
+  FILTER_KEYS,
+  Game,
+  GamesFilters,
+  GamesList as IGamesList,
+} from "../../types/games";
 import { increaseLimit } from "../../store/games/games.slice";
 import { useSearchParams } from "react-router-dom";
 
@@ -19,12 +24,12 @@ const getDisplayedGames = (games: Game[], filters: GamesFilters) => {
 
   if (filterValue) {
     switch (filterKey) {
-      case "provider": {
+      case FILTER_KEYS.PROVIDER: {
         filteredGames = games.filter((game) => game.provider === filterValue);
         break;
       }
 
-      case "currency": {
+      case FILTER_KEYS.CURRENCY: {
         filteredGames = games.filter((game) => {
           const currencies = game.real || {};
           return Object.keys(currencies).includes(filterValue);
@@ -63,7 +68,7 @@ const useGamesList = () => {
 
   const handleShowMore = () => {
     dispatch(increaseLimit());
-    searchParams.set("limit", String(limit + 12));
+    searchParams.set(FILTER_KEYS.LIMIT, String(limit + 12));
     setSearchParams(searchParams);
   };
 

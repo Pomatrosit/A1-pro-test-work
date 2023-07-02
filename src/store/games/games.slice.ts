@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { FilterKey, GamesFilters } from "../../types/games";
+import { FILTER_KEYS, FilterKey, GamesFilters } from "../../types/games";
 import { getSearchParam } from "../../helpers/getSearchParam";
 
 interface FilterLists {
@@ -9,16 +9,16 @@ interface FilterLists {
 
 type GamesState = GamesFilters & FilterLists;
 
-const initialCurrency = getSearchParam("currency");
-const initialProvider = getSearchParam("provider");
+const initialCurrency = getSearchParam(FILTER_KEYS.CURRENCY);
+const initialProvider = getSearchParam(FILTER_KEYS.PROVIDER);
 
 const initialFilterKey = initialCurrency
-  ? "currency"
+  ? FILTER_KEYS.CURRENCY
   : initialProvider
-  ? "provider"
-  : "";
+  ? FILTER_KEYS.PROVIDER
+  : FILTER_KEYS.EMPTY;
 const initialFilterValue = getSearchParam(initialFilterKey) || "";
-const initialLimit = Number(getSearchParam("limit") || 12);
+const initialLimit = Number(getSearchParam(FILTER_KEYS.LIMIT) || 12);
 
 const initialState: GamesState = {
   limit: initialLimit,
@@ -51,7 +51,7 @@ export const gamesSlice = createSlice({
       state.limit = action.payload.limit || 12;
     },
     clearFilters(state) {
-      state.filterKey = "";
+      state.filterKey = FILTER_KEYS.EMPTY;
       state.filterValue = "";
       state.limit = 12;
     },

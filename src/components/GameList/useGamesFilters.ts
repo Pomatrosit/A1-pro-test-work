@@ -6,7 +6,7 @@ import {
   setFilter,
   setFiltersLists,
 } from "../../store/games/games.slice";
-import { FilterKey } from "../../types/games";
+import { FILTER_KEYS, FilterKey } from "../../types/games";
 import { useSearchParams } from "react-router-dom";
 
 const useGamesFilters = () => {
@@ -23,9 +23,9 @@ const useGamesFilters = () => {
   const handleChange = (e: ChangeEvent<HTMLSelectElement>, key: FilterKey) => {
     const value = e.target.value;
 
-    searchParams.set("limit", "12");
-    searchParams.delete("currency");
-    searchParams.delete("provider");
+    searchParams.set(FILTER_KEYS.LIMIT, "12");
+    searchParams.delete(FILTER_KEYS.CURRENCY);
+    searchParams.delete(FILTER_KEYS.PROVIDER);
 
     if (value) searchParams.set(key, value);
 
