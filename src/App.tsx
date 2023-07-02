@@ -1,25 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import GameDetailPage from "./pages/GameDetailPage";
+import GameListPage from "./pages/GameListPage";
+import { ChakraBaseProvider } from "@chakra-ui/react";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+import { theme } from "./theme/theme";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <ChakraBaseProvider theme={theme}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/game/:title" element={<GameDetailPage />} />
+            <Route path="/" element={<GameListPage />} />
+          </Routes>
+        </BrowserRouter>
+      </ChakraBaseProvider>
+    </Provider>
   );
 }
 
