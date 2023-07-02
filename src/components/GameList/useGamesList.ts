@@ -1,12 +1,7 @@
 import { useMemo } from "react";
 import { useGetAllGamesQuery } from "../../store/games/games.api";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import {
-  FILTER_KEYS,
-  Game,
-  GamesFilters,
-  GamesList as IGamesList,
-} from "../../types/games";
+import { Game, GamesFilters, GamesList as IGamesList } from "../../types/games";
 import { increaseLimit } from "../../store/games/games.slice";
 
 const getSortedByPopularityGames = (games: IGamesList | undefined) => {
@@ -19,26 +14,19 @@ const getSortedByPopularityGames = (games: IGamesList | undefined) => {
 const getDisplayedGames = (games: Game[], filters: GamesFilters) => {
   let filteredGames: Game[] = games;
 
-  const { filterKey, filterValue, limit } = filters;
+  const { filterCurrency, filterProvider, limit } = filters;
 
-  if (filterValue) {
-    switch (filterKey) {
-      case FILTER_KEYS.PROVIDER: {
-        filteredGames = games.filter((game) => game.provider === filterValue);
-        break;
-      }
+  if (filterCurrency) {
+    filteredGames = filteredGames.filter((game) => {
+      const currencies = game.real || {};
+      return Object.keys(currencies).includes(filterCurrency);
+    });
+  }
 
-      case FILTER_KEYS.CURRENCY: {
-        filteredGames = games.filter((game) => {
-          const currencies = game.real || {};
-          return Object.keys(currencies).includes(filterValue);
-        });
-        break;
-      }
-
-      default:
-        break;
-    }
+  if (filterProvider) {
+    filteredGames = filteredGames.filter(
+      (game) => game.provider === filterProvider
+    );
   }
 
   return {
@@ -50,7 +38,7 @@ const getDisplayedGames = (games: Game[], filters: GamesFilters) => {
 const useGamesList = () => {
   const dispatch = useAppDispatch();
 
-  const { limit, filterKey, filterValue } = useAppSelector(
+  const { limit, filterCurrency, filterProvider } = useAppSelector(
     (state) => state.games
   );
 
@@ -59,8 +47,9 @@ const useGamesList = () => {
   const sortedGames = useMemo(() => getSortedByPopularityGames(games), [games]);
 
   const { displayedGames, noLimitedLength } = useMemo(
-    () => getDisplayedGames(sortedGames, { limit, filterKey, filterValue }),
-    [sortedGames, limit, filterKey, filterValue]
+    () =>
+      getDisplayedGames(sortedGames, { limit, filterCurrency, filterProvider }),
+    [sortedGames, limit, filterCurrency, filterProvider]
   );
 
   const handleShowMore = () => {

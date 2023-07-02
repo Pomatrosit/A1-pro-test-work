@@ -3,8 +3,13 @@ import useGamesFilters from "./useGamesFilters";
 import { FILTER_KEYS } from "../../types/games";
 
 const GameListFilters = () => {
-  const { handleChange, filterKey, filterValue, currencies, providers } =
-    useGamesFilters();
+  const {
+    handleChange,
+    filterProvider,
+    filterCurrency,
+    currencies,
+    providers,
+  } = useGamesFilters();
 
   return (
     <Box>
@@ -12,7 +17,7 @@ const GameListFilters = () => {
         <Box width={200}>
           <Select
             placeholder="Currency"
-            value={filterKey === FILTER_KEYS.CURRENCY ? filterValue : ""}
+            value={filterCurrency}
             onChange={(e) => handleChange(e, FILTER_KEYS.CURRENCY)}
           >
             {currencies.map((currency) => (
@@ -26,7 +31,7 @@ const GameListFilters = () => {
         <Box width={200}>
           <Select
             placeholder="Provider"
-            value={filterKey === FILTER_KEYS.PROVIDER ? filterValue : ""}
+            value={filterProvider}
             onChange={(e) => handleChange(e, FILTER_KEYS.PROVIDER)}
           >
             {providers.map((provider) => (

@@ -1,17 +1,17 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { FILTER_KEYS, FilterKey, GamesFilters } from "../../types/games";
 
-interface FilterLists {
+interface GamesState {
+  limit: number;
+  filterProvider: string;
+  filterCurrency: string;
   currencies: string[];
   providers: string[];
 }
 
-type GamesState = GamesFilters & FilterLists;
-
 const initialState: GamesState = {
   limit: 12,
-  filterKey: FILTER_KEYS.EMPTY,
-  filterValue: "",
+  filterProvider: "",
+  filterCurrency: "",
   currencies: [],
   providers: [],
 };
@@ -30,23 +30,26 @@ export const gamesSlice = createSlice({
       state.currencies = action.payload.currencies;
       state.providers = action.payload.providers;
     },
-    setFilter(
-      state,
-      action: PayloadAction<{ key: FilterKey; value: string; limit?: number }>
-    ) {
-      state.filterKey = action.payload.key;
-      state.filterValue = action.payload.value;
-      state.limit = action.payload.limit || 12;
+    setFilterProvider(state, action: PayloadAction<string>) {
+      state.filterProvider = action.payload;
+    },
+    setFilterCurrency(state, action: PayloadAction<string>) {
+      state.filterCurrency = action.payload;
     },
     clearFilters(state) {
-      state.filterKey = FILTER_KEYS.EMPTY;
-      state.filterValue = "";
+      state.filterCurrency = "";
+      state.filterProvider = "";
       state.limit = 12;
     },
   },
 });
 
-export const { increaseLimit, setFiltersLists, setFilter, clearFilters } =
-  gamesSlice.actions;
+export const {
+  increaseLimit,
+  setFiltersLists,
+  setFilterProvider,
+  setFilterCurrency,
+  clearFilters,
+} = gamesSlice.actions;
 
 export default gamesSlice;

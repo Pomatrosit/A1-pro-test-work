@@ -2,8 +2,8 @@ import { ChangeEvent, useEffect } from "react";
 import { useGetAllGamesQuery } from "../../store/games/games.api";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import {
-  clearFilters,
-  setFilter,
+  setFilterCurrency,
+  setFilterProvider,
   setFiltersLists,
 } from "../../store/games/games.slice";
 import { FilterKey } from "../../types/games";
@@ -13,19 +13,17 @@ const useGamesFilters = () => {
 
   const { data: games } = useGetAllGamesQuery();
 
-  const { filterKey, filterValue, currencies, providers } = useAppSelector(
-    (state) => state.games
-  );
+  const { filterProvider, filterCurrency, currencies, providers } =
+    useAppSelector((state) => state.games);
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>, key: FilterKey) => {
     const value = e.target.value;
 
-    dispatch(
-      setFilter({
-        key,
-        value,
-      })
-    );
+    if (key === "provider") {
+      dispatch(setFilterProvider(value));
+    } else if (key === "currency") {
+      dispatch(setFilterCurrency(value));
+    }
   };
 
   useEffect(() => {
@@ -51,16 +49,10 @@ const useGamesFilters = () => {
     }
   }, [games, dispatch]);
 
-  useEffect(() => {
-    return () => {
-      dispatch(clearFilters());
-    };
-  }, []);
-
   return {
     handleChange,
-    filterKey,
-    filterValue,
+    filterProvider,
+    filterCurrency,
     currencies,
     providers,
   };

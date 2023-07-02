@@ -1,4 +1,4 @@
-import { Box, Button, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Box, Button, Flex, SimpleGrid, Text } from "@chakra-ui/react";
 import GameCard from "./GameCard";
 import Loader from "../Loader";
 import Alert from "../Alert";
@@ -16,6 +16,15 @@ const GameList = () => {
   if (isLoading) return <Loader />;
 
   if (error) return <Alert />;
+
+  if (!displayedGames.length)
+    return (
+      <Box mt={5}>
+        <Text textAlign="center" color="teal.600" fontSize={20}>
+          Ничего не найдено
+        </Text>
+      </Box>
+    );
 
   return (
     <Box>

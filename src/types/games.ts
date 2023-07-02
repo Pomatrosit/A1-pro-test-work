@@ -24,6 +24,6 @@ export type FilterKey = FILTER_KEYS;
 
 export interface GamesFilters {
   limit: number;
-  filterKey: FilterKey;
-  filterValue: string;
+  filterCurrency: string;
+  filterProvider: string;
 }
