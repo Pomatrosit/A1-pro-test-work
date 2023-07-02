@@ -8,7 +8,6 @@ import {
   GamesList as IGamesList,
 } from "../../types/games";
 import { increaseLimit } from "../../store/games/games.slice";
-import { useSearchParams } from "react-router-dom";
 
 const getSortedByPopularityGames = (games: IGamesList | undefined) => {
   if (!games) return [];
@@ -64,12 +63,8 @@ const useGamesList = () => {
     [sortedGames, limit, filterKey, filterValue]
   );
 
-  const [searchParams, setSearchParams] = useSearchParams();
-
   const handleShowMore = () => {
     dispatch(increaseLimit());
-    searchParams.set(FILTER_KEYS.LIMIT, String(limit + 12));
-    setSearchParams(searchParams);
   };
 
   const isShowMoreButtonShowed = noLimitedLength > limit;
